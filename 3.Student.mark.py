@@ -2,7 +2,7 @@ import curses; curses.setupterm()               #; curses.setupterm()  this code
 import math
 import numpy as np
 
-
+#Create class Std (mean Student) 
 class Student:
     def __init__(self, id, name, DoB):
         self.id = id
@@ -12,7 +12,7 @@ class Student:
     def __str__(self):
         return f"{self.id}_{self.name}_{self.DoB}"
 
-
+#Create class Course, add attribute credits
 class Course:
     def __init__(self, id, name, credits):
         self.id = id
@@ -30,12 +30,13 @@ class Course:
     def __str__(self):
         return f"{self.id}_{self.name}"
 
-
+#Create class School that def func to input in4 stds, course, mark and show them
 class School:
     def __init__(self):
         self.stds = []
         self.courses = []
 
+    # Input informations of students
     def input_num_std(self):
         self.num_std = int(input("Input number of students: "))
 
@@ -46,7 +47,7 @@ class School:
             DoB = input(f"Input date of birth of student No.{i+1} (DD/MM/YYYY): ")
             std = Student(id, name, DoB)
             self.stds.append(std)
-
+    # Input informations of courses
     def input_num_course(self):
         self.num_course = int(input("Input number of courses: "))
 
@@ -58,6 +59,7 @@ class School:
             course = Course(id, name, credits)
             self.courses.append(course)
 
+    #Input marks
     def input_mark(self):
         for course in self.courses:
             print(f"\nInput marks for course: {course.name} (id: {course.id})")
@@ -65,7 +67,8 @@ class School:
                 mark = input(f"Input mark for student {std.name} (id: {std.id}): ")
                 mark = math.floor(float(mark) * 10) / 10.0
                 course.input_mark(std, mark)
-
+    
+    #Print students and courses list, show marks
     def list_stds(self):
         print("List of students:")
         for std in self.stds:
@@ -82,33 +85,37 @@ class School:
             for std, mark in course.marks.items():
                 print(std.name, mark)
 
+    #Fuction to calculate GPA
     def calculate_GPA(self, std):
-        total_mark = 0
-        total_credit = 0
+        total_mark= 0
+        total_credit= 0
         for course in self.courses:
             if std in course.marks:
-                mark = course.marks[std]
-                credit = course.credits
-                total_mark += mark * credit
-                total_credit += credit
-        if total_credit == 0:
+                mark= course.marks[std]
+                credit= course.credits
+                total_mark+= mark * credit
+                total_credit+= credit
+        if total_credit== 0:
             return 0
         else:
-            return total_mark / total_credit
+            return total_mark/ total_credit
+    
+    #Fuction to show GPA
     def show_GPA(self):
-        print("GPA of students:")
-        temp_list = []
+        print("GPA of students: ")
+        temp_list= []
         for std in self.stds:
-            gpa = self.calculate_GPA(std)
+            gpa= self.calculate_GPA(std)
             temp_list.append((std.name, gpa))
-        sorted_list = sorted(temp_list, key=lambda x: x[1], reverse=True)
+        sorted_list= sorted(temp_list, key=lambda x: x[1], reverse=True)
         for std, gpa in sorted_list:
             print(f"{std}: {gpa}")
 
- 
+ #Function to run
 def run():
     my_school = School()
     
+    #Create a list options
     while True:
         print('''
 1. Input number of students want to add to the students list
